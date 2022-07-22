@@ -36,7 +36,7 @@ get_protoc() {
     release=protoc-${PROTOC_VERSION#v}-${suffix}.zip
     url=https://github.com/protocolbuffers/protobuf/releases/download/${PROTOC_VERSION}/${release}
     wget -q $url || exit 1
-    python -m zipfile -e $release $os || exit 1
+    unzip -o -d $os $release || exit 1
     chmod +x $os/bin/protoc
     mv $os/bin/protoc $out/protoc-${os}-${arch} && rm -rf $os $release
 }
@@ -77,7 +77,6 @@ kitex -module github.com/cloudwego/kitex-tests ./idl/http.thrift
 kitex -module github.com/cloudwego/kitex-tests ./idl/tenant.thrift
 kitex -module github.com/cloudwego/kitex-tests -type protobuf -I idl ./idl/stability.proto
 kitex -module github.com/cloudwego/kitex-tests -type protobuf -I idl ./idl/unknown_handler.proto
-
 
 # Init dependencies
 go get github.com/apache/thrift@v0.13.0
